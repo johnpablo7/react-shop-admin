@@ -1,3 +1,5 @@
+// import useFetch from "@/hooks/useFetch";
+// import endPoints from "@/services/api";
 import Image from "next/image";
 
 const people = [
@@ -13,6 +15,9 @@ const people = [
 ];
 
 export default function Dashboard() {
+  // const products = useFetch(endPoints.products.getProducts(5, 5));
+  // console.log(products);
+
   return (
     <>
       <div className="flex flex-col">
@@ -60,7 +65,7 @@ export default function Dashboard() {
                             <Image
                               className="h-10 w-10 rounded-full"
                               src={person.image}
-                              alt=""
+                              alt="img"
                               width={40}
                               height={40}
                             />
