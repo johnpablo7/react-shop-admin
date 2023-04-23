@@ -3,12 +3,15 @@ import Cookie from "js-cookie";
 import axios from "axios";
 import endPoints from "@/services/api";
 
+type TUser = {
+  name: string;
+  email: string;
+  avatar: string;
+  imageUrl: string;
+};
+
 interface AppContextInterface {
-  user: {
-    name: string;
-    email: string;
-    avatar: string;
-  };
+  user: TUser | undefined;
   error: boolean;
   signIn: (email: string, password: string) => Promise<void>;
   setError: (error: boolean) => void;
@@ -26,7 +29,7 @@ export const useAuth = () => {
 };
 
 function useProviderAuth() {
-  const [user, setUser] = useState<string>("");
+  const [user, setUser] = useState<TUser>();
   const [error, setError] = useState(false);
 
   const options = {
