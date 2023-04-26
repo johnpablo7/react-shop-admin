@@ -1,28 +1,28 @@
+import { Chart } from "@/common/Chart";
 import useFetch from "@/hooks/useFetch";
 import endPoints from "@/services/api";
 import Image from "next/image";
 
-const people = [
-  {
-    name: "Jane Cooper",
-    title: "Regional Paradigm Technician",
-    department: "Optimization",
-    role: "Admin",
-    email: "jane.cooper@example.com",
-    image:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-  },
-];
+type TCategory = {
+  id: string[];
+  name: string[];
+  image: string[];
+};
 
 type TProduct = {
+  category: TCategory[];
   id: string[];
   title: string[];
   price: number[];
   description: string[];
-  images: any[];
+  images: string[];
   creationAt: string[];
   updatedAt: string[];
 };
+
+interface Props {
+  products: Array<TProduct>;
+}
 
 const PRODUCT_LIMIT = 5;
 const PRODUCT_OFFSET = 5;
@@ -33,8 +33,33 @@ export default function Dashboard() {
   ) as TProduct[] | undefined;
   console.log(products);
 
+  const categoryNames = products?.map((product) => product.category);
+  const categoryCount = categoryNames?.map((category) => category.name);
+  // console.log(categoryNames);
+  // console.log(categoryCount);
+  const countOcurrences = (arr) =>
+    arr.reduce((prev, curr) => ((prev[curr] = ++prev[curr] || 1), prev), {});
+
+  const data = {
+    datasets: [
+      {
+        label: "Categories",
+        data: countOcurrences(categoryCount),
+        borderWidth: 2,
+        backgroundColor: [
+          "#ffbb11",
+          "#c0c0c0",
+          "#50AF95",
+          "#f3ba2f",
+          "#2a71d0",
+        ],
+      },
+    ],
+  };
+
   return (
     <>
+      <Chart className="mb-8 mt-2" chartData={data} />
       <div className="flex flex-col">
         <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
